@@ -149,25 +149,25 @@ private:
         map<int, double> document_to_relevance; 
 
         for (const auto& query_plus : query_words.plus_words) { 
-			if (word_to_documents_freqs_.count(query_plus)) {
+            if (word_to_documents_freqs_.count(query_plus)) {
                 double idf = log(static_cast<double>(document_count_)
                 /word_to_documents_freqs_.at(query_plus).size());
-				for (const auto& [id, tf] : word_to_documents_freqs_.at(query_plus)) {
-				    document_to_relevance[id] += tf * idf;
-				}
-			}
+                for (const auto& [id, tf] : word_to_documents_freqs_.at(query_plus)) {
+                    document_to_relevance[id] += tf * idf;
+                }
+            }
         }
         for (const auto& query_minus : query_words.minus_words) {
-	        if (word_to_documents_freqs_.count(query_minus)) {
+            if (word_to_documents_freqs_.count(query_minus)) {
                 for (const auto& [id, tf] : word_to_documents_freqs_.at(query_minus)) {
                     document_to_relevance.erase(id);
                 }
-		    }
-		}
+            }
+        }
 
-		for (const auto& document : document_to_relevance) {
-				matched_documents.push_back({document.first, document.second});
-		}
+        for (const auto& document : document_to_relevance) {
+                matched_documents.push_back({document.first, document.second});
+        }
 
         return matched_documents;
     }
